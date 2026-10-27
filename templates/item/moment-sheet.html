@@ -1,0 +1,23 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <div class="header-fields">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'TENCANDLES.items.moment.name'}}"/>
+            </h1>
+        </div>
+    </header>
+
+    <div class="sheet-content">
+        <div class="form-group">
+            <label>{{localize "TENCANDLES.items.description"}}</label>
+            <textarea name="system.description">{{system.description}}</textarea>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="system.burned" {{checked system.burned}}/>
+                {{localize "TENCANDLES.items.burned"}}
+            </label>
+        </div>
+    </div>
+</form>

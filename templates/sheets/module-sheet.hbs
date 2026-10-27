@@ -1,0 +1,14 @@
+<section class="tc-sheet__content">
+  <header class="tc-sheet__header">
+    <img src="{{item.img}}" alt="" {{#if editable}}data-action="editImage" data-edit="img"{{/if}}>
+    <div><span class="tc-sheet__eyebrow">{{localize "TENCANDLES.Item.Module"}}</span><input name="name" value="{{item.name}}" {{disabled (not editable)}}></div>
+  </header>
+  <label>{{localize "TENCANDLES.Fields.Introduction"}}<textarea name="system.introduction" {{disabled (not editable)}}>{{system.introduction}}</textarea></label>
+  <label>{{localize "TENCANDLES.Module.NotablePlaces"}}<textarea name="system.notablePlaces" placeholder="{{localize 'TENCANDLES.Module.NotablePlacesHint'}}" {{disabled (not editable)}}>{{system.notablePlaces}}</textarea></label>
+  <label>{{localize "TENCANDLES.Fields.Goal"}}<textarea name="system.goal" {{disabled (not editable)}}>{{system.goal}}</textarea></label>
+  <label>{{localize "TENCANDLES.Module.Notes"}}<textarea name="system.notes" {{disabled (not editable)}}>{{system.notes}}</textarea></label>
+  <div class="tc-module-meta">
+    <label>{{localize "TENCANDLES.Module.Author"}}<input name="system.author" value="{{system.author}}" {{disabled (not editable)}}></label>
+    <label>{{localize "TENCANDLES.Module.Language"}}<select name="system.language" {{disabled (not editable)}}><option value="fr" {{#if (eq system.language "fr")}}selected{{/if}}>Français</option><option value="en" {{#if (eq system.language "en")}}selected{{/if}}>English</option></select></label>
+  </div>
+</section>

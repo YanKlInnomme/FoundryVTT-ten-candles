@@ -1,0 +1,75 @@
+{
+  "id": "ten-candles",
+  "title": "Ten Candles",
+  "description": "An immersive tragic horror system for Ten Candles.",
+  "version": "1.0.0.0",
+  "license": "LICENSE",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.369",
+    "maximum": "15"
+  },
+  "authors": [
+    {
+      "name": "YanK l'Innommé",
+      "url": "https://yanklinnomme.fr",
+      "email": "contact@yanklinnomme.fr",
+      "discord": "yanklinnomme"
+    }
+  ],
+  "background": "systems/ten-candles/assets/background.webp",
+  "media": [
+    {
+      "type": "cover",
+      "url": "systems/ten-candles/assets/repo.webp",
+      "loop": false,
+      "flags": {}
+    },
+    {
+      "type": "setup",
+      "url": "systems/ten-candles/assets/repo.webp",
+      "thumbnail": "systems/ten-candles/assets/thumbnail.webp"
+    }
+  ],
+  "esmodules": [
+    "ten-candles.js"
+  ],
+  "styles": [
+    "styles/tokens.css",
+    "styles/sheets-v2.css",
+    "styles/ritual-table.css"
+  ],
+  "socket": true,
+  "documentTypes": {
+    "Actor": {
+      "session": {},
+      "survivor": {},
+      "them": {}
+    },
+    "Item": {
+      "trait": {},
+      "moment": {},
+      "brink": {},
+      "module": {}
+    }
+  },
+  "packs": [
+    { "name": "modules-en", "label": "Ten Candles — Modules (English)", "path": "packs/modules-en", "type": "Item", "system": "ten-candles" },
+    { "name": "modules-fr", "label": "Dix bougies — Modules (Français)", "path": "packs/modules-fr", "type": "Item", "system": "ten-candles" }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json"
+    }
+  ],
+  "url": "https://github.com/YanKlInnomme/FoundryVTT-ten-candles",
+  "manifest": "",
+  "download": ""
+}

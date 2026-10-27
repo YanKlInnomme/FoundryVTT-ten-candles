@@ -1,0 +1,579 @@
+<div class="tc-table-stage" style="--tc-darkness: {{darkness}}">
+  {{#if isEpilogue}}
+    <section class="tc-epilogue">
+      {{#if epilogueAwaitingFormula}}
+        <div class="tc-epilogue-formula">
+          <span>{{localize "TENCANDLES.Epilogue.Eyebrow"}}</span>
+          <p>{{localize "TENCANDLES.Epilogue.FormulaGuidance"}}</p>
+          <blockquote>{{localize "TENCANDLES.Epilogue.FinalFormula"}}</blockquote>
+          {{#if canConfirmFinalFormula}}<button type="button" data-action="confirmFinalFormula">{{localize "TENCANDLES.Epilogue.FormulaSpoken"}}</button>{{/if}}
+        </div>
+      {{/if}}
+      {{#if epiloguePlaying}}
+        <div class="tc-epilogue-message">
+          <span>{{localize "TENCANDLES.Epilogue.MessagePosition" current=epiloguePosition count=epilogueCount}}</span>
+          {{#if epilogueEntry.hasAudio}}
+            <audio preload="auto" src="{{epilogueEntry.mediaPath}}" data-epilogue-audio></audio>
+            {{#if canControlEpilogueSound}}
+              <aside class="tc-epilogue-soundboard">
+                <header><span>{{localize "TENCANDLES.Epilogue.Soundboard.Title"}}</span><small>{{localize "TENCANDLES.Epilogue.Soundboard.NonDestructive"}}</small></header>
+                <label>{{localize "TENCANDLES.Epilogue.Soundboard.Preset"}}
+                  <select data-soundboard-preset>
+                    <option value="intact">{{localize "TENCANDLES.Epilogue.Soundboard.intact"}}</option>
+                    <option value="cassette">{{localize "TENCANDLES.Epilogue.Soundboard.cassette"}}</option>
+                    <option value="radio">{{localize "TENCANDLES.Epilogue.Soundboard.radio"}}</option>
+                    <option value="degraded">{{localize "TENCANDLES.Epilogue.Soundboard.degraded"}}</option>
+                    <option value="lost">{{localize "TENCANDLES.Epilogue.Soundboard.lost"}}</option>
+                  </select>
+                </label>
+                <div class="tc-soundboard-levels">
+                  <label>{{localize "TENCANDLES.Epilogue.Soundboard.Voice"}}<input type="range" min="0" max="1" value="1" step="0.05" data-soundboard-voice></label>
+                  <label>{{localize "TENCANDLES.Epilogue.Soundboard.Noise"}}<input type="range" min="0" max="0.5" value="0" step="0.025" data-soundboard-noise></label>
+                </div>
+                <div class="tc-soundboard-events">
+                  <button type="button" data-soundboard-effect="dropout">{{localize "TENCANDLES.Epilogue.Soundboard.Dropout"}}</button>
+                  <button type="button" data-soundboard-effect="scratch">{{localize "TENCANDLES.Epilogue.Soundboard.Scratch"}}</button>
+                  <button type="button" data-soundboard-effect="interference">{{localize "TENCANDLES.Epilogue.Soundboard.Interference"}}</button>
+                  <button type="button" data-soundboard-effect="reset">{{localize "TENCANDLES.Epilogue.Soundboard.Reset"}}</button>
+                </div>
+              </aside>
+            {{/if}}
+            <button class="tc-epilogue-play" type="button" data-action="playEpilogueRecording">{{localize "TENCANDLES.Epilogue.PlayMessage"}}</button>
+            <p class="tc-epilogue-missing">{{localize "TENCANDLES.Epilogue.MediaMissing"}}</p>
+          {{else}}{{#if epilogueEntry.hasText}}
+            <blockquote>{{epilogueEntry.textFallback}}</blockquote>
+          {{else}}
+            <p>{{localize "TENCANDLES.Epilogue.MediaMissing"}}</p>
+          {{/if}}{{/if}}
+          {{#if canAdvanceEpilogue}}<button class="tc-epilogue-advance" type="button" data-action="advanceEpilogueRecording">{{localize "TENCANDLES.Epilogue.Continue"}}</button>{{/if}}
+        </div>
+      {{/if}}
+      {{#if epilogueSilent}}
+        <div class="tc-epilogue-silence" data-epilogue-silence data-remaining-ms="{{epilogueSilenceRemainingMs}}">
+          {{#if canEndRitual}}<button type="button" data-action="endRitual">{{localize "TENCANDLES.Epilogue.EndRitual"}}</button>{{/if}}
+        </div>
+      {{/if}}
+    </section>
+  {{/if}}
+  {{#if isRitualEnded}}
+    <section class="tc-epilogue is-ended">
+      <div><span>{{localize "TENCANDLES.Epilogue.Ended"}}</span></div>
+    </section>
+  {{/if}}
+  <header class="tc-table-heading">
+    <div>
+      <span>{{phaseLabel}}</span>
+      <h1>{{#if system.scene.number}}{{localize "TENCANDLES.Table.Scene" number=system.scene.number}}{{else}}{{localize "TENCANDLES.Table.Preparation"}}{{/if}}</h1>
+    </div>
+    <div class="tc-table-heading__tools">
+      <p>{{localize "TENCANDLES.Table.CandlesRemain" count=litCandleCount}}</p>
+      {{#if showTableCharacters}}
+        <details class="tc-table-characters" data-table-characters {{#if charactersOpen}}open{{/if}}>
+          <summary><i class="fa-solid fa-users" aria-hidden="true"></i> {{localize "TENCANDLES.Table.Characters"}}</summary>
+          <div class="tc-table-characters__list">
+            {{#each tableCharacters as |character|}}
+              {{#if character.canOpen}}
+                <button type="button" class="tc-table-character" data-action="openCharacterSheet" data-actor-id="{{character.id}}" aria-label="{{localize 'TENCANDLES.Table.OpenCharacterSheet' name=character.name}}">
+                  <img src="{{character.img}}" alt=""><span>{{character.name}}{{#if character.playerName}} ({{character.playerName}}){{/if}}</span><i class="fa-solid fa-address-card" aria-hidden="true"></i>
+                </button>
+              {{else}}
+                <div class="tc-table-character"><img src="{{character.img}}" alt=""><span>{{character.name}}{{#if character.playerName}} ({{character.playerName}}){{/if}}</span></div>
+              {{/if}}
+            {{/each}}
+            {{#if tableThem}}
+              <button type="button" class="tc-table-character is-them" data-action="openCharacterSheet" data-actor-id="{{tableThem.id}}" aria-label="{{localize 'TENCANDLES.Table.OpenCharacterSheet' name=tableThem.name}}">
+                <img src="{{tableThem.img}}" alt=""><span>{{tableThem.name}}</span><i class="fa-solid fa-address-card" aria-hidden="true"></i>
+              </button>
+            {{/if}}
+          </div>
+        </details>
+      {{/if}}
+    </div>
+  </header>
+
+  {{#if canDebugAudio}}
+    <aside class="tc-debug-audio">
+      <button type="button" class="tc-debug-audio__handle" data-debug-drag title="{{localize 'TENCANDLES.Table.MoveDebug'}}"><i class="fa-solid fa-grip" aria-hidden="true"></i> {{localize "TENCANDLES.Table.DebugAudio"}}</button>
+      <button type="button" data-action="debugRecording">{{localize "TENCANDLES.Table.DebugRecording"}}</button>
+      <button type="button" data-action="debugPlayback">{{localize "TENCANDLES.Table.DebugPlayback"}}</button>
+    </aside>
+  {{/if}}
+  {{#if showModuleReference}}
+    <aside class="tc-module-reference">
+      {{#if activeModule.system.goal}}
+        <small>{{localize "TENCANDLES.Fields.Goal"}}</small>
+        <p>{{activeModule.system.goal}}</p>
+      {{/if}}
+      {{#if activeModule.system.notablePlaces}}
+        <details data-module-places {{#if modulePlacesOpen}}open{{/if}}>
+          <summary>{{localize "TENCANDLES.Module.NotablePlaces"}}</summary>
+          <p>{{activeModule.system.notablePlaces}}</p>
+        </details>
+      {{/if}}
+    </aside>
+  {{/if}}
+
+  {{#if isSeatingVestibule}}
+    <section class="tc-seating-vestibule">
+      <header>
+        <span>{{localize "TENCANDLES.Seating.FirstStep"}}</span>
+        {{#if isCurrentUserGm}}
+          <h2>{{localize "TENCANDLES.Seating.AwaitingPlayers"}}</h2>
+          <p>{{localize "TENCANDLES.Seating.GmWaiting"}}</p>
+        {{else}}
+          <h2>{{localize "TENCANDLES.Seating.ChooseSeat"}}</h2>
+          <p>{{localize "TENCANDLES.Seating.FreeMovement"}}</p>
+        {{/if}}
+      </header>
+      {{#if moduleRequiredForInvitation}}<p class="tc-module-required"><i class="fa-solid fa-lock" aria-hidden="true"></i> {{localize "TENCANDLES.Seating.ModuleRequired"}}</p>{{/if}}
+      {{#if canPrepareSeats}}
+        <fieldset class="tc-invitation-list">
+          <legend>{{localize "TENCANDLES.Seating.InvitePlayers"}}</legend>
+          {{#each invitationChoices as |choice|}}<label><input type="checkbox" data-invited-user value="{{choice.user.id}}" {{#if choice.invited}}checked{{/if}}> <span>{{choice.user.name}}</span></label>{{/each}}
+        </fieldset>
+        <button type="button" data-action="prepareSeats">{{localize "TENCANDLES.Seating.InviteAndPrepare"}}</button>
+      {{/if}}
+      <div class="tc-round-table">
+        <div class="tc-gm-chair"><strong>{{authorityName}}</strong></div>
+        {{#each seating as |seat|}}
+          <div class="tc-player-chair {{#if seat.survivorActorId}}is-occupied{{/if}} {{#if seat.ready}}is-ready{{/if}}" style="--seat-angle: {{seat.angle}}deg">
+            {{#if seat.userId}}
+              <strong>{{seat.user.name}}</strong>
+              {{#if seat.isMine}}{{#if seat.ready}}<button type="button" data-action="changeSeat">{{localize "TENCANDLES.Seating.ChangeSeat"}}</button>{{else}}<button type="button" data-action="confirmSeat">{{localize "TENCANDLES.Seating.ConfirmSeat"}}</button>{{/if}}{{/if}}
+            {{else}}{{#if seat.canTake}}<button type="button" data-action="takeSeat" data-position="{{seat.position}}">{{localize "TENCANDLES.Seating.SitHere"}}</button>{{else}}<span class="tc-empty-seat" aria-label="{{localize 'TENCANDLES.Seating.EmptySeat'}}"></span>{{/if}}{{/if}}
+          </div>
+        {{/each}}
+        <div class="tc-round-table__center">{{localize "TENCANDLES.Table.Title"}}</div>
+      </div>
+      {{#if canLockSeating}}<button class="tc-lock-seating" type="button" data-action="lockSeating">{{localize "TENCANDLES.Seating.LockAndContinue"}}</button>{{/if}}
+    </section>
+  {{/if}}
+
+  {{#if showDistribution}}
+    <section class="tc-gm-brink-panel">
+      <div class="tc-seating-panel__content">
+        <span>{{localize "TENCANDLES.Creation.GmBrinkEyebrow"}}</span>
+        {{#if canConfigureSeating}}<p>{{localize "TENCANDLES.Creation.GmBrinkInstructions" player=gmBrinkRecipientName}}</p><label><span class="tc-field-title">{{localize "TENCANDLES.Seating.GmBrinkFor" player=gmBrinkRecipientName}}{{#if gmBrinkLocked}}<i class="fa-solid fa-lock" title="{{localize 'TENCANDLES.Common.LockedField'}}" aria-label="{{localize 'TENCANDLES.Common.LockedField'}}"></i>{{/if}}</span><textarea data-gm-brink placeholder="{{localize 'TENCANDLES.Card.Placeholder.Brink'}}" {{disabled gmBrinkLocked}}></textarea><small>{{localize "TENCANDLES.Creation.BrinkGuidance"}}</small><em>{{localize "TENCANDLES.Creation.BrinkExamples"}}</em></label>{{/if}}
+        {{#if canSaveGmBrink}}{{#if canConfigureSeating}}{{#if gmBrinkLocked}}<button type="button" data-action="unlockGmBrink">{{localize "TENCANDLES.Creation.EditBrink"}}</button>{{else}}<button type="button" data-action="saveGmBrink">{{localize "TENCANDLES.Creation.ConfirmBrink"}}</button>{{/if}}{{/if}}{{/if}}
+      </div>
+    </section>
+  {{/if}}
+
+  {{#if showSeatingReference}}
+    <details class="tc-seating-reference">
+      <summary>{{localize "TENCANDLES.Seating.ViewTable"}}</summary>
+      <div class="tc-seating-reference__circle">
+        <strong class="tc-seating-reference__gm">{{authorityName}}</strong>
+        {{#each seating as |seat|}}<span style="--seat-angle: {{seat.angle}}deg">{{seat.user.name}}</span>{{/each}}
+      </div>
+    </details>
+  {{/if}}
+
+  {{#if hasActiveMoments}}
+    <aside class="tc-active-moments" aria-live="polite">
+      <span>{{localize "TENCANDLES.Moment.ActiveEyebrow"}}</span>
+      <h2>{{localize "TENCANDLES.Moment.ActiveTitle"}}</h2>
+      {{#each activeMoments as |entry|}}
+        <article>
+          <strong>{{localize "TENCANDLES.Moment.ActiveFor" player=entry.playerName survivor=entry.actorName}}</strong>
+          <p>{{entry.text}}</p>
+          {{#if entry.canAttempt}}<button type="button" data-action="openMomentConflict">{{localize "TENCANDLES.Moment.Attempt"}}</button>{{/if}}
+        </article>
+      {{/each}}
+      <small>{{localize "TENCANDLES.Moment.ActiveGuidance"}}</small>
+    </aside>
+  {{/if}}
+
+  {{#if isRecordingPhase}}
+    <section class="tc-recording-circle">
+      <header>
+        <span>{{localize "TENCANDLES.Recording.Eyebrow"}}</span>
+        <h2>{{localize "TENCANDLES.Recording.Title"}}</h2>
+        <p>{{localize "TENCANDLES.Recording.Introduction"}}</p>
+      </header>
+      <ol class="tc-recording-order">
+        {{#each recordingEntries as |entry|}}
+          <li class="is-{{entry.status}} {{#if entry.current}}is-current{{/if}}">
+            <strong>{{entry.playerName}}</strong><span>{{entry.actorName}}</span><small>{{#if entry.current}}{{localize "TENCANDLES.Recording.SpeakingNow"}}{{else}}{{entry.statusLabel}}{{/if}}</small>
+            {{#if entry.canRequestRetake}}<button type="button" data-action="requestRecordingRetake">{{localize "TENCANDLES.Recording.Retake"}}</button>{{/if}}
+          </li>
+        {{/each}}
+      </ol>
+      {{#if isMyRecordingTurn}}
+        <article class="tc-recording-station">
+          <div class="tc-recorder">
+            <div class="tc-recorder__speaker" aria-hidden="true"></div>
+            <div class="tc-recorder__screen">
+              <span class="tc-recorder__mode">{{#if localRecording.recording}}● REC{{else}}{{#if localRecording.ready}}PLAYBACK{{else}}STANDBY{{/if}}{{/if}}</span>
+              <strong data-recording-time data-running="{{localRecording.recording}}" data-elapsed="{{localRecording.elapsedMs}}">00:00</strong>
+              <canvas class="tc-recorder__waveform" data-recording-waveform aria-label="{{localize 'TENCANDLES.Common.AudioWaveform'}}"></canvas>
+            </div>
+            <div class="tc-recorder__microphone" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="tc-recorder__content">
+              <strong>{{localize "TENCANDLES.Recording.YourTurn"}}</strong>
+              <p>{{localize "TENCANDLES.Recording.Prompt"}}</p>
+              {{#if localRecording.recording}}
+                <div class="tc-recording-live"><i></i><span>{{localize "TENCANDLES.Recording.RecordingNow"}}</span></div>
+                <button class="tc-recorder__stop" type="button" data-action="stopRecording">■ {{localize "TENCANDLES.Recording.Stop"}}</button>
+              {{else}}
+                {{#if localRecording.ready}}
+                  <audio preload="metadata" src="{{localRecording.previewUrl}}" data-recording-audio data-duration-ms="{{localRecording.durationMs}}"></audio>
+                  <div class="tc-recorder__audio-controls">
+                    <button type="button" data-recording-play aria-label="{{localize 'TENCANDLES.Common.Play'}}">▶</button>
+                    <input type="range" min="0" max="{{localRecording.durationMs}}" value="0" step="10" data-recording-progress aria-label="{{localize 'TENCANDLES.Common.RecordingPosition'}}">
+                    <span><b data-recording-current>0:00</b> / <b data-recording-total>{{localRecording.durationLabel}}</b></span>
+                    <button type="button" data-recording-mute aria-label="{{localize 'TENCANDLES.Common.Mute'}}">🔊</button>
+                    <input type="range" min="0" max="1" value="1" step="0.05" data-recording-volume aria-label="{{localize 'TENCANDLES.Common.Volume'}}">
+                  </div>
+                  <div class="tc-recording-buttons"><button type="button" data-action="discardRecording">↺ {{localize "TENCANDLES.Recording.StartAgain"}}</button><button type="button" data-action="passRecording">{{localize "TENCANDLES.Recording.Pass"}}</button><button type="button" data-action="submitRecording">{{localize "TENCANDLES.Recording.Confirm"}}</button></div>
+                {{else}}
+                  <button class="tc-recorder__record" type="button" data-action="startRecording"><i></i>{{localize "TENCANDLES.Recording.Start"}}</button>
+                  <label class="tc-recording-upload">{{localize "TENCANDLES.Recording.OrUpload"}}<input type="file" accept=".opus,.oga,.flac,.webm,.weba,.wav,.ogg,.m4a,.mp3,.aiff,.aif,.au,.mka" data-recording-file></label>
+                  <button type="button" data-action="passRecording">{{localize "TENCANDLES.Recording.Pass"}}</button>
+                  <small>{{localize "TENCANDLES.Recording.Consent"}}</small>
+                {{/if}}
+              {{/if}}
+            </div>
+          </div>
+        </article>
+      {{else}}
+        {{#if recordingCurrentName}}<p class="tc-recording-waiting">{{localize "TENCANDLES.Recording.WaitingFor" name=recordingCurrentName}}</p>{{/if}}
+      {{/if}}
+      {{#if canSealRecordings}}<button class="tc-recording-seal" type="button" data-action="sealRecordings">{{localize "TENCANDLES.Recording.Seal"}}</button>{{/if}}
+      {{#if canSkipRecordings}}<button class="tc-recording-skip" type="button" data-action="skipRecordings">{{localize "TENCANDLES.Recording.Skip"}}</button>{{/if}}
+    </section>
+  {{/if}}
+
+  {{#if isModulePhase}}
+    <article class="tc-module-presentation">
+      <span>{{localize "TENCANDLES.Creation.ModuleEyebrow"}}</span>
+      <h2>{{#if activeModule}}{{activeModule.name}}{{else}}{{localize "TENCANDLES.Creation.UntitledModule"}}{{/if}}</h2>
+      <p>{{#if activeModule}}{{activeModule.system.introduction}}{{else}}{{localize "TENCANDLES.Creation.NoIntroduction"}}{{/if}}</p>
+      {{#if activeModule.system.notablePlaces}}<section class="tc-module-places"><small>{{localize "TENCANDLES.Module.NotablePlaces"}}</small><p>{{activeModule.system.notablePlaces}}</p></section>{{/if}}
+      {{#if activeModule.system.goal}}<footer><small>{{localize "TENCANDLES.Fields.Goal"}}</small><strong>{{activeModule.system.goal}}</strong></footer>{{/if}}
+      {{#if canActivate}}<button class="tc-module-activate" type="button" data-action="activateRitual">{{localize "TENCANDLES.Ritual.Activate"}}</button>{{/if}}
+    </article>
+  {{/if}}
+
+  {{#if isFinalizationPhase}}
+    <article class="tc-distribution-reveal">
+      <span>{{localize "TENCANDLES.Creation.CardsHavePassed"}}</span>
+      <h2>{{localize "TENCANDLES.Creation.NotTheCardsYouWrote"}}</h2>
+      <p>{{localize "TENCANDLES.Creation.DistributionNarrative"}}</p>
+      <ul>
+        <li>{{localize "TENCANDLES.Creation.DistributionVirtue"}}</li>
+        <li>{{localize "TENCANDLES.Creation.DistributionVice"}}</li>
+        <li>{{localize "TENCANDLES.Creation.DistributionMoment"}}</li>
+        <li>{{localize "TENCANDLES.Creation.DistributionBrink"}}</li>
+      </ul>
+      <strong>{{#if isPersonalSurvivorFinalized}}{{localize "TENCANDLES.Creation.FinalizationCompleteInstruction"}}{{else}}{{localize "TENCANDLES.Creation.FinalizationInstruction"}}{{/if}}</strong>
+      {{#if personalHand}}<button type="button" data-action="openSurvivorSheet">{{#if isPersonalSurvivorFinalized}}{{localize "TENCANDLES.Creation.ReopenMySurvivor"}}{{else}}{{localize "TENCANDLES.Creation.OpenMySurvivor"}}{{/if}}</button>{{/if}}
+    </article>
+  {{/if}}
+
+  {{#if isLastStand}}
+    <aside class="tc-last-stand">
+      <span>{{localize "TENCANDLES.LastStand.Eyebrow"}}</span>
+      <h2>{{localize "TENCANDLES.LastStand.Title"}}</h2>
+      {{#if livingSurvivors.length}}
+        <p>{{localize "TENCANDLES.LastStand.Guidance"}}</p>
+        <ul>
+          {{#each livingSurvivors as |survivor|}}<li class="is-living"><img src="{{survivor.img}}" alt=""><strong>{{survivor.name}}</strong></li>{{/each}}
+          {{#each fallenSurvivors as |survivor|}}<li class="is-fallen"><img src="{{survivor.img}}" alt=""><strong>{{survivor.name}}</strong><small>{{localize "TENCANDLES.LastStand.Fallen"}}</small></li>{{/each}}
+        </ul>
+      {{else}}
+        <p>{{localize "TENCANDLES.LastStand.AllFallen"}}</p>
+        {{#if canExtinguishFinalCandle}}<button type="button" data-action="extinguishFinalCandle">{{localize "TENCANDLES.LastStand.ExtinguishFinal"}}</button>{{/if}}
+      {{/if}}
+    </aside>
+  {{/if}}
+
+  {{#if canOpenConflict}}
+    <details class="tc-conflict-panel is-opening">
+      <summary>
+        <span class="tc-conflict-open-label">{{localize "TENCANDLES.Conflict.Open"}}</span>
+        <span class="tc-conflict-cancel-label">{{localize "TENCANDLES.Conflict.CancelPreparation"}}</span>
+      </summary>
+      <span>{{localize "TENCANDLES.Conflict.Eyebrow"}}</span>
+      <h2>{{localize "TENCANDLES.Conflict.OpenTitle"}}</h2>
+      <fieldset class="tc-conflict-survivors">
+        <legend>{{localize "TENCANDLES.Conflict.ActiveSurvivor"}}</legend>
+        <div>
+          {{#each conflictSurvivors as |entry|}}
+            <label>
+              <input type="radio" name="conflict-survivor" value="{{entry.actor.id}}" data-conflict-actor {{#if entry.selected}}checked{{/if}}>
+              <img src="{{entry.actor.img}}" alt="">
+              <strong>{{entry.actor.name}}</strong>
+              <small>{{entry.playerName}}</small>
+            </label>
+          {{/each}}
+        </div>
+      </fieldset>
+      <div class="tc-conflict-options">
+        <label><input type="checkbox" data-conflict-dire> {{localize "TENCANDLES.Conflict.Dire"}}</label>
+        {{#if hasAvailableThemBrink}}<label><input type="checkbox" data-conflict-them> {{localize "TENCANDLES.Conflict.ThemInvolved"}}</label>{{/if}}
+      </div>
+      <button class="tc-conflict-begin" type="button" data-action="openConflict">{{localize "TENCANDLES.Conflict.Begin"}}</button>
+    </details>
+  {{/if}}
+
+  {{#if choosingNarrationCandle}}
+    <aside class="tc-narration-selection" aria-live="assertive">
+      <span>{{localize "TENCANDLES.Conflict.NarrationSelectionEyebrow"}}</span>
+      {{#if isNarrationChooser}}
+        <strong>{{localize "TENCANDLES.Conflict.NarrationSelectionActive"}}</strong>
+        <p>{{localize "TENCANDLES.Conflict.NarrationSelectionActiveHint"}}</p>
+      {{else}}
+        <strong>{{localize "TENCANDLES.Conflict.NarrationSelectionWaiting" name=narrationChooserName}}</strong>
+        <p>{{localize "TENCANDLES.Conflict.NarrationSelectionWaitingHint"}}</p>
+      {{/if}}
+    </aside>
+  {{/if}}
+
+  {{#unless choosingNarrationCandle}}{{#unless conflictIdle}}
+    <section class="tc-conflict-panel is-active">
+      <span>{{#if conflict.dire}}{{localize "TENCANDLES.Conflict.DireEyebrow"}}{{else}}{{localize "TENCANDLES.Conflict.Eyebrow"}}{{/if}}</span>
+      <h2>{{localize "TENCANDLES.Conflict.InProgress"}}</h2>
+      <p>{{localize "TENCANDLES.Conflict.ActiveLabel" name=conflict.activeActorName}}</p>
+      {{#if conflictOpen}}
+        <div class="tc-conflict-pools"><strong>{{conflict.commonDiceCount}} {{localize "TENCANDLES.Conflict.CommonDice"}}</strong><strong>{{conflict.availableHopeDiceCount}} {{localize "TENCANDLES.Conflict.HopeDiceAvailable"}}</strong><strong>{{conflict.gmDiceCount}} {{localize "TENCANDLES.Conflict.GmDice"}}</strong></div>
+        <div class="tc-conflict-rollers">
+          <section class="{{#if conflict.playerRolled}}is-complete{{/if}}">
+            <strong>{{localize "TENCANDLES.Conflict.PlayerTurn" name=conflict.activeActorName}}</strong>
+            {{#if canRollPlayerConflict}}
+              {{#if conflict.hasHopeDice}}<label class="tc-conflict-hope"><input type="checkbox" data-conflict-hope> {{localize "TENCANDLES.Conflict.UseHopeDice" count=conflict.availableHopeDiceCount}}</label>{{/if}}
+              <button type="button" data-action="rollPlayerConflict">{{localize "TENCANDLES.Conflict.RollPlayerDice"}}</button>
+            {{else}}<small>{{#if conflict.playerRolled}}{{localize "TENCANDLES.Conflict.PlayerRolled"}}{{else}}{{localize "TENCANDLES.Conflict.AwaitingPlayer"}}{{/if}}</small>{{/if}}
+          </section>
+          <section class="{{#if conflict.gmRollComplete}}is-complete{{/if}} {{#unless conflict.gmHasDice}}is-unavailable{{/unless}}">
+            <strong>{{localize "TENCANDLES.Conflict.GmTurn"}}</strong>
+            {{#if canRollGmConflict}}<button type="button" data-action="rollGmConflict">{{localize "TENCANDLES.Conflict.RollGmDice"}}</button>
+            {{else}}<small>{{#unless conflict.gmHasDice}}{{localize "TENCANDLES.Conflict.GmHasNoDice"}}{{else}}{{#if conflict.gmRolled}}{{localize "TENCANDLES.Conflict.GmRolled"}}{{else}}{{localize "TENCANDLES.Conflict.AwaitingGm"}}{{/if}}{{/unless}}</small>{{/if}}
+          </section>
+        </div>
+        {{#if canCancelConflict}}<button type="button" data-action="cancelConflict">{{localize "TENCANDLES.Conflict.Cancel"}}</button>{{/if}}
+      {{/if}}
+      {{#if conflict.burnedTrait}}
+        <article class="tc-conflict-burned-trait">
+          <strong>{{localize "TENCANDLES.Conflict.TraitBurnedSummary" name=conflict.burnedTrait.actorName card=conflict.burnedTrait.cardName}}</strong>
+          <blockquote>{{conflict.burnedTrait.text}}</blockquote>
+          <small>{{localize "TENCANDLES.Conflict.TraitNarrationReminder"}}</small>
+        </article>
+      {{/if}}
+      {{#if conflictNarrating}}
+        <div class="tc-conflict-verdict"><strong>{{#if conflict.success}}{{localize "TENCANDLES.Conflict.Success"}}{{else}}{{localize "TENCANDLES.Conflict.Failure"}}{{/if}}</strong><span>{{localize "TENCANDLES.Conflict.Narration" name=conflict.narrationName}}</span></div>
+        <article class="tc-conflict-narration-turn">
+          <strong>{{localize "TENCANDLES.Conflict.NarrationTurnTitle" name=conflict.narrationName}}</strong>
+          <p>{{localize "TENCANDLES.Conflict.NarrationTurnHint"}}</p>
+          {{#if conflict.canFinishNarration}}<button class="tc-conflict-finish-narration" type="button" data-action="finishConflictNarration">{{localize "TENCANDLES.Conflict.FinishNarration"}}</button>{{else}}<small>{{localize "TENCANDLES.Conflict.AwaitingNarration" name=conflict.narrationName}}</small>{{/if}}
+        </article>
+      {{/if}}      {{#if conflictRolled}}
+        <div class="tc-conflict-results">
+          <div><small>{{localize "TENCANDLES.Conflict.PlayerResults"}}</small><div class="tc-dice-results">{{#each conflict.playerDice as |die|}}<b class="{{#if die.isOne}}is-one{{/if}} {{#if die.isSuccess}}is-success{{/if}}">{{die.value}}</b>{{/each}}{{#each conflict.hopeDice as |die|}}<b class="is-hope {{#if die.isSuccess}}is-success{{/if}}">{{die.value}}</b>{{/each}}</div></div>
+          <div><small>{{localize "TENCANDLES.Conflict.GmResults"}}</small><div class="tc-dice-results">{{#each conflict.gmDice as |die|}}<b class="{{#if die.isSix}}is-success{{/if}}">{{die.value}}</b>{{/each}}</div></div>
+        </div>
+        <div class="tc-conflict-verdict"><strong>{{#if conflict.success}}{{localize "TENCANDLES.Conflict.Success"}}{{else}}{{localize "TENCANDLES.Conflict.Failure"}}{{/if}}</strong><span>{{localize "TENCANDLES.Conflict.Narration" name=conflict.narrationName}}</span></div>
+        {{#if conflict.brinkHeldAfterReroll}}<p class="tc-brink-held">{{localize "TENCANDLES.Conflict.BrinkHeld"}}</p>{{/if}}
+        <div class="tc-conflict-reactions">
+          {{#if conflict.canBurnTrait}}<button type="button" data-action="burnTrait">{{localize "TENCANDLES.Conflict.BurnTrait"}}</button>{{/if}}
+          {{#if conflict.canEmbraceBrink}}<button type="button" data-action="embraceBrink">{{#if conflict.brinkHeldAfterReroll}}{{localize "TENCANDLES.Conflict.EmbraceBrinkAgain"}}{{else}}{{localize "TENCANDLES.Conflict.EmbraceBrink"}}{{/if}}</button>{{/if}}
+          {{#if conflict.canUseThemBrink}}<button type="button" data-action="useThemBrink">{{localize "TENCANDLES.Conflict.UseThemBrink"}}</button>{{/if}}
+          {{#if conflict.canSeizeNarration}}
+            <div class="tc-conflict-narration-action">
+              <button class="tc-conflict-candle-choice" type="button" data-action="beginNarrationSeizure">{{localize "TENCANDLES.Conflict.SeizeNarrationAction"}}</button>
+              <small>{{localize "TENCANDLES.Conflict.SeizeNarration"}}</small>
+            </div>
+          {{/if}}
+          {{#if conflict.canSacrifice}}
+            {{#if conflict.canPassHope}}<label>{{localize "TENCANDLES.Conflict.HopeRecipient"}}<select data-hope-recipient><option value="">{{localize "TENCANDLES.Common.None"}}</option>{{#each sacrificeRecipients as |actor|}}<option value="{{actor.id}}">{{actor.name}}</option>{{/each}}</select></label>{{/if}}
+            <button type="button" data-action="sacrificeSurvivor">{{localize "TENCANDLES.Conflict.Sacrifice"}}</button>
+          {{/if}}
+        </div>
+        {{#if conflict.canAccept}}<button class="tc-conflict-accept" type="button" data-action="acceptConflict">{{localize "TENCANDLES.Conflict.Accept"}}</button>{{/if}}
+        {{#if conflict.awaitingPlayerDecision}}<small class="tc-conflict-awaiting">{{localize "TENCANDLES.Conflict.AwaitingDecision" name=conflict.activeActorName}}</small>{{/if}}
+      {{/if}}
+    </section>
+  {{/unless}}{{/unless}}
+
+  <aside class="tc-dice-pool tc-dice-pool--common" aria-label="{{localize 'TENCANDLES.Fields.CommonDice'}}">
+    <span>{{localize "TENCANDLES.Table.WeHave"}}</span>
+    <strong>{{system.dice.common}}</strong>
+    <small>{{localize "TENCANDLES.Table.Dice"}}</small>
+  </aside>
+
+  <aside class="tc-dice-pool tc-dice-pool--gm" aria-label="{{localize 'TENCANDLES.Fields.GmDice'}}">
+    <span>{{localize "TENCANDLES.Table.TheyHave"}}</span>
+    <strong>{{system.dice.gm}}</strong>
+    <small>{{localize "TENCANDLES.Table.Dice"}}</small>
+  </aside>
+
+  <div class="tc-candle-circle" role="list" aria-label="{{localize 'TENCANDLES.Fields.Candles'}}">
+    {{#each candles as |entry|}}
+      <div class="tc-candle-position" style="--candle-index: {{entry.index}}; --light-delay: {{entry.lightDelayMs}}ms" role="listitem">
+        {{#if (and ../canSelectNarrationCandle (eq entry.candle.state "lit"))}}
+          <button class="tc-candle is-{{entry.candle.state}} is-narration-choice {{#if entry.selectedForNarration}}is-selected{{/if}}" type="button" data-action="seizeNarration" data-candle-id="{{entry.candle.id}}" aria-label="{{localize 'TENCANDLES.Conflict.ChooseCandle' number=entry.number}}">
+        {{else}}{{#if (and ../canExtinguish (eq entry.candle.state "lit"))}}
+          <button class="tc-candle is-{{entry.candle.state}} {{#if entry.newlyLit}}is-newly-lit{{/if}}" type="button" data-action="extinguishCandle" data-candle-id="{{entry.candle.id}}" aria-label="{{localize 'TENCANDLES.Table.ExtinguishCandle' number=entry.number}}">
+        {{else}}
+          <div class="tc-candle is-{{entry.candle.state}} {{#if entry.newlyLit}}is-newly-lit{{/if}}" aria-label="{{localize 'TENCANDLES.Table.CandleState' number=entry.number state=entry.candle.state}}">
+        {{/if}}{{/if}}
+          <span class="tc-candle__flame"></span>
+          <span class="tc-candle__wick"></span>
+          <span class="tc-candle__wax"></span>
+          <small>{{entry.number}}</small>
+        {{#if (and ../canSelectNarrationCandle (eq entry.candle.state "lit"))}}</button>{{else}}{{#if (and ../canExtinguish (eq entry.candle.state "lit"))}}</button>{{else}}</div>{{/if}}{{/if}}
+      </div>
+    {{/each}}
+
+    <section class="tc-table-center">
+      {{#if isTruthRound}}
+        <span>{{localize "TENCANDLES.Table.TruthsTitle"}}</span>
+        <strong>{{system.truthRound.spokenCount}} / {{system.truthRound.expectedCount}}</strong>
+      {{else}}
+        <strong>{{litCandleCount}}</strong>
+        <small>{{localize "TENCANDLES.Table.Flames"}}</small>
+      {{/if}}
+    </section>
+  </div>
+
+  <section class="tc-table-truths">
+    <h2>{{localize "TENCANDLES.Fields.Truths"}}</h2>
+    {{#if recentTruths.length}}
+      <ol>
+        {{#each recentTruths as |truth|}}<li class="is-{{truth.kind}}">{{#if (eq truth.kind "ritual-opening")}}{{localize "TENCANDLES.Epilogue.FinalFormula"}}{{else}}{{#if (eq truth.kind "ritual-closing")}}{{localize "TENCANDLES.Table.TruthClosing"}}{{else}}{{truth.text}}{{/if}}{{/if}}{{#if (and ../isCurrentUserGm (eq truth.kind "spoken"))}} <button class="tc-truth-edit" type="button" data-action="editTruth" data-truth-id="{{truth.id}}" aria-label="{{localize 'TENCANDLES.Table.EditTruth'}}" title="{{localize 'TENCANDLES.Table.EditTruth'}}"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>{{/if}}</li>{{/each}}
+      </ol>
+      {{#if hasHiddenTruths}}
+        <details class="tc-truth-history">
+          <summary>{{localize "TENCANDLES.Table.ViewAllTruths" count=system.truths.length}}</summary>
+          <ol>
+            {{#each system.truths as |truth|}}<li class="is-{{truth.kind}}">{{#if (eq truth.kind "ritual-opening")}}{{localize "TENCANDLES.Epilogue.FinalFormula"}}{{else}}{{#if (eq truth.kind "ritual-closing")}}{{localize "TENCANDLES.Table.TruthClosing"}}{{else}}{{truth.text}}{{/if}}{{/if}}{{#if (and ../isCurrentUserGm (eq truth.kind "spoken"))}} <button class="tc-truth-edit" type="button" data-action="editTruth" data-truth-id="{{truth.id}}" aria-label="{{localize 'TENCANDLES.Table.EditTruth'}}" title="{{localize 'TENCANDLES.Table.EditTruth'}}"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>{{/if}}</li>{{/each}}
+          </ol>
+        </details>
+      {{/if}}
+    {{else}}
+      <p>{{localize "TENCANDLES.Table.NoTruths"}}</p>
+    {{/if}}
+  </section>
+
+  {{#if showPreparationProgress}}
+    <aside class="tc-creation-progress">
+      <span>{{preparationProgressLabel}}</span>
+      <ul>{{#each preparationParticipants as |participant|}}<li class="{{#if participant.ready}}is-ready{{/if}}"><strong>{{participant.playerName}}</strong><small>{{#if participant.ready}}{{localize "TENCANDLES.Creation.Ready"}}{{else}}{{localize "TENCANDLES.Creation.Writing"}}{{/if}}</small></li>{{/each}}</ul>
+    </aside>
+  {{/if}}
+
+  <footer class="tc-table-actions">
+    {{#if canAdvancePreparation}}<button type="button" data-action="advancePreparation">{{#if startsFirstScene}}{{localize "TENCANDLES.Ritual.BeginGame"}}{{else}}{{localize "TENCANDLES.Ritual.AdvancePreparation"}}{{/if}}</button>{{/if}}
+    {{#if canExtinguish}}
+      <button type="button" data-action="extinguishNextCandle">{{localize "TENCANDLES.Table.ExtinguishNext"}}</button>
+      <span class="tc-table-action-hint">{{localize "TENCANDLES.Table.ExtinguishHint"}}</span>
+    {{/if}}
+  {{#if isTruthRound}}
+      <section class="tc-truth-turn" aria-live="polite">
+        <span>{{localize "TENCANDLES.Table.TruthTurnTitle"}}</span>
+        {{#if awaitingCollectiveTruth}}
+          <strong>{{localize "TENCANDLES.Table.TruthCollective"}}</strong>
+        {{else}}
+          <strong>{{localize "TENCANDLES.Table.TruthTurnNow" name=currentTruthSpeakerName}}</strong>
+          <ol>
+            {{#each truthTurnOrder as |speaker|}}
+              <li class="{{#if speaker.current}}is-current{{/if}}">{{speaker.name}}</li>
+            {{/each}}
+          </ol>
+        {{/if}}
+      </section>
+      <div class="tc-table-truth-entry">
+        {{#if canSubmitTruth}}
+          <input type="text" data-truth-input placeholder="{{localize 'TENCANDLES.Ritual.TruthPlaceholder'}}">
+          <button type="button" data-action="submitTruth">{{localize "TENCANDLES.Ritual.SubmitTruth"}}</button>
+        {{else}}{{#unless awaitingCollectiveTruth}}
+          <p>{{localize "TENCANDLES.Table.TruthWaiting" name=currentTruthSpeakerName}}</p>
+        {{/unless}}
+        {{/if}}
+        {{#if canCloseTruthRound}}<button type="button" data-action="closeTruthRound">{{localize "TENCANDLES.Ritual.CloseTruthRound"}}</button>{{/if}}
+      </div>
+    {{/if}}
+    <small>{{localize "TENCANDLES.Table.Authority" name=authorityName}}</small>
+  </footer>
+
+  {{#if personalHand}}
+    <details class="tc-personal-hand {{#if personalHand.fallen}}is-fallen{{/if}}" {{#if shouldOpenPersonalHand}}open{{/if}}{{#if personalHand.fallen}}open{{/if}}{{#if isTraitsPhase}}open{{/if}}{{#if isMomentsPhase}}open{{/if}}{{#if isBrinksPhase}}open{{/if}}{{#if isFinalizationPhase}}open{{/if}}{{#if isConceptsPhase}}open{{/if}}>
+      <summary>{{#if personalHand.fallen}}{{localize "TENCANDLES.Table.FallenHand" name=personalHand.survivor.name}}{{else}}{{localize "TENCANDLES.Table.MyHand" name=personalHand.survivor.name}}{{/if}}</summary>
+      <div class="tc-personal-hand__content">
+        {{#if personalHand.fallen}}
+          <section class="tc-fallen-memorial">
+            <img src="{{personalHand.survivor.img}}" alt="">
+            <span>{{localize "TENCANDLES.Table.FallenSurvivor"}}</span>
+            <strong>{{personalHand.survivor.name}}</strong>
+            <p>{{localize "TENCANDLES.Table.FallenMessage" scene=personalHand.survivor.system.death.sceneNumber}}</p>
+          </section>
+        {{else}}
+        {{#if isTraitsPhase}}
+          <section class="tc-trait-writing">
+            <span>{{localize "TENCANDLES.Creation.WriteTraits"}}</span>
+            <p>{{localize "TENCANDLES.Creation.TraitsInstructions"}}</p>
+            <label><span class="tc-field-title">{{localize "TENCANDLES.Item.Virtue"}}{{#if traitsLocked}}<i class="fa-solid fa-lock" title="{{localize 'TENCANDLES.Common.LockedField'}}" aria-label="{{localize 'TENCANDLES.Common.LockedField'}}"></i>{{/if}}</span><input type="text" data-virtue-input value="{{personalHand.virtue.system.text}}" placeholder="{{localize 'TENCANDLES.Card.Placeholder.Virtue'}}" {{disabled traitsLocked}}><small>{{localize "TENCANDLES.Creation.VirtueGuidance"}}</small><em>{{localize "TENCANDLES.Creation.VirtueExamples"}}</em></label>
+            <label><span class="tc-field-title">{{localize "TENCANDLES.Item.Vice"}}{{#if traitsLocked}}<i class="fa-solid fa-lock" title="{{localize 'TENCANDLES.Common.LockedField'}}" aria-label="{{localize 'TENCANDLES.Common.LockedField'}}"></i>{{/if}}</span><input type="text" data-vice-input value="{{personalHand.vice.system.text}}" placeholder="{{localize 'TENCANDLES.Card.Placeholder.Vice'}}" {{disabled traitsLocked}}><small>{{localize "TENCANDLES.Creation.ViceGuidance"}}</small><em>{{localize "TENCANDLES.Creation.ViceExamples"}}</em></label>
+            {{#if traitsLocked}}<button type="button" data-action="unlockTraits">{{localize "TENCANDLES.Creation.EditTraits"}}</button>{{else}}<button type="button" data-action="submitTraits">{{localize "TENCANDLES.Creation.ConfirmTraits"}}</button>{{/if}}
+          </section>
+        {{/if}}
+        {{#if isMomentsPhase}}
+          <section class="tc-moment-writing">
+            <span>{{localize "TENCANDLES.Creation.WriteMoment"}}</span>
+            <p>{{localize "TENCANDLES.Creation.MomentInstructions"}}</p>
+            <label><span class="tc-field-title">{{localize "TENCANDLES.Item.Moment"}}{{#if momentLocked}}<i class="fa-solid fa-lock" title="{{localize 'TENCANDLES.Common.LockedField'}}" aria-label="{{localize 'TENCANDLES.Common.LockedField'}}"></i>{{/if}}</span><textarea data-moment-input placeholder="{{localize 'TENCANDLES.Card.Placeholder.Moment'}}" {{disabled momentLocked}}>{{personalHand.moment.system.text}}</textarea><small>{{localize "TENCANDLES.Creation.MomentGuidance"}}</small><em>{{localize "TENCANDLES.Creation.MomentExamples"}}</em></label>
+            {{#if momentLocked}}<button type="button" data-action="unlockMoment">{{localize "TENCANDLES.Creation.EditMoment"}}</button>{{else}}<button type="button" data-action="submitMoment">{{localize "TENCANDLES.Creation.ConfirmMoment"}}</button>{{/if}}
+          </section>
+        {{/if}}
+        {{#if isBrinksPhase}}
+          <section class="tc-moment-writing tc-brink-writing">
+            <span>{{localize "TENCANDLES.Creation.WriteBrink" player=brinkRecipientName}}</span>
+            <p>{{#if isBrinkForThem}}{{localize "TENCANDLES.Creation.ThemBrinkInstructions"}}{{else}}{{localize "TENCANDLES.Creation.BrinkInstructions" player=brinkRecipientName}}{{/if}}</p>
+            <label><span class="tc-field-title">{{localize "TENCANDLES.Item.Brink"}}{{#if brinkLocked}}<i class="fa-solid fa-lock" title="{{localize 'TENCANDLES.Common.LockedField'}}" aria-label="{{localize 'TENCANDLES.Common.LockedField'}}"></i>{{/if}}</span><textarea data-brink-input placeholder="{{localize 'TENCANDLES.Card.Placeholder.Brink'}}" {{disabled brinkLocked}}>{{personalHand.brink.system.text}}</textarea><small>{{#if isBrinkForThem}}{{localize "TENCANDLES.Creation.ThemBrinkGuidance"}}{{else}}{{localize "TENCANDLES.Creation.BrinkGuidance"}}{{/if}}</small><em>{{#if isBrinkForThem}}{{localize "TENCANDLES.Creation.ThemBrinkExamples"}}{{else}}{{localize "TENCANDLES.Creation.BrinkExamples"}}{{/if}}</em></label>
+            {{#if brinkLocked}}<button type="button" data-action="unlockBrink">{{localize "TENCANDLES.Creation.EditBrink"}}</button>{{else}}<button type="button" data-action="submitBrink">{{localize "TENCANDLES.Creation.ConfirmBrink"}}</button>{{/if}}
+          </section>
+        {{/if}}
+        {{#if isConceptsPhase}}
+          <section class="tc-concept-writing">
+            <span>{{localize "TENCANDLES.Creation.WriteConcept"}}</span>
+            <p>{{localize "TENCANDLES.Creation.ConceptInstructions"}}</p>
+            <label><span class="tc-field-title">{{localize "TENCANDLES.Creation.CharacterName"}}{{#if conceptLocked}}<i class="fa-solid fa-lock" title="{{localize 'TENCANDLES.Common.LockedField'}}" aria-label="{{localize 'TENCANDLES.Common.LockedField'}}"></i>{{/if}}</span><input type="text" data-concept-name value="{{personalHand.survivor.name}}" placeholder="{{localize 'TENCANDLES.Creation.NamePlaceholder'}}" {{disabled conceptLocked}}></label>
+            <label><span class="tc-field-title">{{localize "TENCANDLES.Fields.Look"}}{{#if conceptLocked}}<i class="fa-solid fa-lock" title="{{localize 'TENCANDLES.Common.LockedField'}}" aria-label="{{localize 'TENCANDLES.Common.LockedField'}}"></i>{{/if}}</span><textarea data-concept-look placeholder="{{localize 'TENCANDLES.Creation.LookPlaceholder'}}" {{disabled conceptLocked}}>{{personalHand.survivor.system.concept.look}}</textarea></label>
+            <label><span class="tc-field-title">{{localize "TENCANDLES.Fields.Concept"}}{{#if conceptLocked}}<i class="fa-solid fa-lock" title="{{localize 'TENCANDLES.Common.LockedField'}}" aria-label="{{localize 'TENCANDLES.Common.LockedField'}}"></i>{{/if}}</span><textarea data-concept-summary placeholder="{{localize 'TENCANDLES.Creation.ConceptPlaceholder'}}" {{disabled conceptLocked}}>{{personalHand.survivor.system.concept.summary}}</textarea></label>
+            {{#if conceptLocked}}<button type="button" data-action="unlockConcept">{{localize "TENCANDLES.Creation.EditConcept"}}</button>{{else}}<button type="button" data-action="submitConcept">{{localize "TENCANDLES.Creation.ConfirmConcept"}}</button>{{/if}}
+          </section>
+        {{/if}}
+        <span>{{localize "TENCANDLES.Fields.Concept"}}</span>
+        <p>{{personalHand.survivor.system.concept.summary}}</p>
+        {{#if personalHand.activeCard}}
+          <article class="tc-hand-card is-active {{#if personalHand.activeCardBurning}}is-burning{{/if}}">
+            <div class="tc-hand-card__content">
+              <small>{{localize "TENCANDLES.Table.ActiveCard"}}</small>
+              <strong>{{personalHand.activeCard.name}}</strong>
+              <p>{{personalHand.activeCard.system.text}}</p>
+            </div>
+            {{#if personalHand.activeCardBurning}}
+              <i class="tc-card-burn-glow" aria-hidden="true"></i>
+              <i class="tc-card-burn-embers" aria-hidden="true"></i>
+              <i class="tc-card-burn-ash" aria-hidden="true"></i>
+            {{/if}}
+          </article>
+        {{/if}}
+        <ol class="tc-hand-stack">
+          {{#each personalHand.cards as |card|}}<li class="is-{{card.state}}"><span>{{card.document.name}}</span><small>{{card.stateLabel}}</small></li>{{/each}}
+        </ol>
+        {{#if personalHand.hasBurnedCards}}
+          <section class="tc-card-graveyard">
+            <header><span>{{localize "TENCANDLES.Table.CardGraveyard"}}</span><small>{{localize "TENCANDLES.Table.CardGraveyardHint"}}</small></header>
+            <ol>
+              {{#each personalHand.graveyard as |card|}}<li><span>{{card.document.name}}</span><small>{{card.stateLabel}}</small></li>{{/each}}
+            </ol>
+          </section>
+        {{/if}}
+        {{/if}}
+      </div>
+    </details>
+  {{/if}}
+</div>
+
+

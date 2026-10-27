@@ -1,0 +1,22 @@
+<section class="tc-sheet__content">
+  <header class="tc-sheet__header">
+    <img src="{{actor.img}}" alt="" {{#if editable}}data-action="editImage" data-edit="img"{{/if}}>
+    <div>
+      <span class="tc-sheet__eyebrow">{{localize "TENCANDLES.Actor.Them"}}</span>
+      <input name="name" type="text" value="{{actor.name}}" {{disabled (not editable)}}>
+    </div>
+  </header>
+  <label>{{localize "TENCANDLES.Fields.Notes"}}<textarea name="system.notes" {{disabled (not editable)}}>{{system.notes}}</textarea></label>
+  <section class="tc-them-brinks">
+    <span class="tc-sheet__eyebrow">{{localize "TENCANDLES.Them.ReceivedBrink"}}</span>
+    {{#each brinks as |brink|}}
+      <article data-item-id="{{brink.id}}">
+        <p>{{#if brink.system.text}}{{brink.system.text}}{{else}}{{localize "TENCANDLES.Survivor.EmptyCard"}}{{/if}}</p>
+        {{#if ../editable}}<button type="button" data-action="editBrink">{{localize "TENCANDLES.Survivor.EditCard"}}</button>{{/if}}
+      </article>
+    {{else}}
+      <p class="tc-warning">{{localize "TENCANDLES.Them.NoBrink"}}</p>
+    {{/each}}
+  </section>
+  <p class="tc-warning">{{localize "TENCANDLES.Them.Warning"}}</p>
+</section>

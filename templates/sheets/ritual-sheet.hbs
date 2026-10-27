@@ -1,0 +1,51 @@
+<section class="tc-sheet__content">
+  <button class="tc-primary-action" type="button" data-action="openRitualTable">{{localize "TENCANDLES.Table.Open"}}</button>
+  <header class="tc-sheet__header">
+    <img src="{{actor.img}}" alt="" {{#if editable}}data-action="editImage" data-edit="img"{{/if}}>
+    <div><span class="tc-sheet__eyebrow">{{localize "TENCANDLES.Actor.Session"}}</span><input name="name" type="text" value="{{actor.name}}" {{disabled (not editable)}}></div>
+  </header>
+  <div class="tc-status-grid">
+    <article><span>{{localize "TENCANDLES.Fields.Status"}}</span><strong>{{statusLabel}}</strong></article><article><span>{{localize "TENCANDLES.Fields.Phase"}}</span><strong>{{phaseLabel}}</strong></article><article><span>{{localize "TENCANDLES.Fields.Revision"}}</span><strong>{{system.revision}}</strong></article><article><span>{{localize "TENCANDLES.Fields.Scene"}}</span><strong>{{system.scene.number}}</strong></article><article><span>{{localize "TENCANDLES.Fields.LitCandles"}}</span><strong>{{litCandleCount}}</strong></article><article><span>{{localize "TENCANDLES.Fields.CommonDice"}}</span><strong>{{system.dice.common}}</strong></article><article><span>{{localize "TENCANDLES.Fields.GmDice"}}</span><strong>{{system.dice.gm}}</strong></article><article><span>{{localize "TENCANDLES.Fields.Authority"}}</span><strong>{{authorityName}}</strong></article>
+  </div>
+  {{#if showModuleSection}}
+  <fieldset>
+    <legend>{{localize "TENCANDLES.Module.ChooseTitle"}}</legend>
+    {{#if activeModule}}
+      <article class="tc-active-module">
+        <strong>{{activeModule.name}}</strong>
+        {{#if activeModule.system.introduction}}<p>{{activeModule.system.introduction}}</p>{{/if}}
+        <dl>
+          {{#if activeModule.system.goal}}<div><dt>{{localize "TENCANDLES.Module.Goal"}}</dt><dd>{{activeModule.system.goal}}</dd></div>{{/if}}
+          {{#if activeModule.system.notablePlaces}}<div><dt>{{localize "TENCANDLES.Module.NotablePlaces"}}</dt><dd>{{activeModule.system.notablePlaces}}</dd></div>{{/if}}
+        </dl>
+        {{#if canConfigureModule}}<button type="button" data-action="openActiveModule">{{localize "TENCANDLES.Module.Open"}}</button>{{/if}}
+      </article>
+    {{else}}<p class="hint">{{localize "TENCANDLES.Module.NoSelection"}}</p>{{/if}}
+    {{#if canConfigureModule}}
+      <label for="{{actor.id}}-module-choice">{{localize "TENCANDLES.Module.ListLabel"}}</label>
+      <div class="tc-module-picker">
+        <select id="{{actor.id}}-module-choice" data-module-choice><option value="">—</option>{{#each moduleChoices as |choice|}}<option value="{{choice.uuid}}">{{choice.group}} — {{choice.name}}</option>{{/each}}</select>
+        <button type="button" data-action="randomModule" title="{{localize 'TENCANDLES.Module.RandomModule'}}" aria-label="{{localize 'TENCANDLES.Module.RandomModule'}}" {{disabled (not hasModuleChoices)}}><i class="fa-solid fa-dice" aria-hidden="true"></i></button>
+      </div>
+      <div class="tc-module-actions"><button type="button" data-action="chooseModule">{{localize "TENCANDLES.Module.UseSelected"}}</button><button type="button" data-action="createPersonalModule">{{localize "TENCANDLES.Module.CreatePersonal"}}</button></div>
+      <div class="tc-module-drop" data-module-drop>{{localize "TENCANDLES.Module.DropHere"}}</div>
+    {{/if}}
+  </fieldset>
+  {{/if}}
+  {{#if showGmConfiguration}}
+    <fieldset>
+      <legend>{{localize "TENCANDLES.CandleClock.Title"}}</legend>
+      {{#unless canConfigurePhysical}}<p class="tc-config-lock"><i class="fa-solid fa-lock" aria-hidden="true"></i> {{localize "TENCANDLES.CandleClock.Locked"}}</p>{{/unless}}
+      <label>{{localize "TENCANDLES.CandleClock.EnvironmentLabel"}}<select name="system.candleEnvironment" {{disabled (not canConfigurePhysical)}}>{{#each candleEnvironmentChoices as |choice|}}<option value="{{choice.value}}" {{#if choice.selected}}selected{{/if}}>{{choice.label}}</option>{{/each}}</select></label>
+      {{#each candleEnvironmentChoices as |choice|}}{{#if choice.selected}}<p class="hint" aria-live="polite">{{choice.description}}</p>{{/if}}{{/each}}
+      <p class="hint">{{localize "TENCANDLES.CandleClock.Hint"}}</p>
+    </fieldset>
+    <fieldset>
+      <legend>{{localize "TENCANDLES.Recording.PlaybackOrder.Title"}}</legend>
+      <label>{{localize "TENCANDLES.Recording.PlaybackOrder.Label"}}<select name="system.recording.playbackOrder" {{disabled (not editable)}}>{{#each recordingPlaybackOrderChoices as |choice|}}<option value="{{choice.value}}" {{#if choice.selected}}selected{{/if}}>{{choice.label}}</option>{{/each}}</select></label>
+      <p class="hint">{{localize "TENCANDLES.Recording.PlaybackOrder.Hint"}}</p>
+    </fieldset>
+  {{/if}}
+  <div class="tc-candle-debug" aria-label="{{localize 'TENCANDLES.Fields.Candles'}}">{{#each candles as |entry|}}<span class="tc-candle-debug__item is-{{entry.candle.state}}" title="{{entry.candle.id}}">{{entry.label}}</span>{{/each}}</div>
+  {{#if system.truths.length}}<section><h2>{{localize "TENCANDLES.Fields.Truths"}}</h2><ol class="tc-truth-list">{{#each system.truths as |truth|}}<li class="is-{{truth.kind}}">{{#if (eq truth.kind "ritual-opening")}}{{localize "TENCANDLES.Epilogue.FinalFormula"}}{{else}}{{#if (eq truth.kind "ritual-closing")}}{{localize "TENCANDLES.Table.TruthClosing"}}{{else}}{{truth.text}}{{/if}}{{/if}}</li>{{/each}}</ol></section>{{/if}}
+</section>

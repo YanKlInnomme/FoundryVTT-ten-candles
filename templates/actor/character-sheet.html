@@ -1,0 +1,96 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+        </div>
+    </header>
+
+    <section class="sheet-body">
+        <div class="items-grid">
+            <!-- Virtues Section -->
+            <div class="item-section virtues" data-item-type="virtue">
+                <h2>
+                    {{localize "TENCANDLES.character.virtues"}}
+                    <a class="item-control item-create" data-item-type="virtue" title="{{localize 'TENCANDLES.create.virtue'}}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </h2>
+                <div class="items-list">
+                    {{#each virtues as |item id|}}
+                    <div class="item" data-item-id="{{item._id}}">
+                        <h4>{{item.name}}</h4>
+                        <div class="item-controls">
+                            <a class="item-control item-edit"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <!-- Vice Section -->
+            <div class="item-section vice" data-item-type="vice">
+                <h2>
+                    {{localize "TENCANDLES.character.vice"}}
+                    <a class="item-control item-create" data-item-type="vice" title="{{localize 'TENCANDLES.create.vice'}}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </h2>
+                <div class="items-list">
+                    {{#each vices as |item id|}}
+                    <div class="item" data-item-id="{{item._id}}">
+                        <h4>{{item.name}}</h4>
+                        <div class="item-controls">
+                            <a class="item-control item-edit"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <!-- Moment Section -->
+            <div class="item-section moment" data-item-type="moment">
+                <h2>
+                    {{localize "TENCANDLES.character.moment"}}
+                    <a class="item-control item-create" data-item-type="moment" title="{{localize 'TENCANDLES.create.moment'}}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </h2>
+                <div class="items-list">
+                    {{#each moments as |item id|}}
+                    <div class="item" data-item-id="{{item._id}}">
+                        <h4>{{item.name}}</h4>
+                        <div class="item-controls">
+                            <a class="item-control item-edit"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <!-- Brink Section -->
+            <div class="item-section brink" data-item-type="brink">
+                <h2>
+                    {{localize "TENCANDLES.character.brink"}}
+                    <a class="item-control item-create" data-item-type="brink" title="{{localize 'TENCANDLES.create.brink'}}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </h2>
+                <div class="items-list">
+                    {{#each brinks as |item id|}}
+                    <div class="item" data-item-id="{{item._id}}">
+                        <h4>{{item.name}}</h4>
+                        <div class="item-controls">
+                            <a class="item-control item-edit"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

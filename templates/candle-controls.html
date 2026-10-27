@@ -1,0 +1,25 @@
+<div class="ten-candles-controls">
+  <div class="candles-container">
+    {{#each candles}}
+    <div class="candle-control" data-candle-id="{{this.id}}">
+      <div class="candle {{#if this.isLit}}lit{{else}}extinguished{{/if}}">
+        <div class="flame"></div>
+        <div class="wax"></div>
+      </div>
+      {{#if ../isGM}}
+      <div class="candle-buttons">
+        {{#if this.isLit}}
+        <button class="extinguish-candle" data-candle-id="{{this.id}}">
+          <i class="fas fa-times"></i>
+        </button>
+        {{else}}
+        <button class="light-candle" data-candle-id="{{this.id}}">
+          <i class="fas fa-fire"></i>
+        </button>
+        {{/if}}
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<section class="tc-sheet__content">
+  <header class="tc-sheet__header">
+    <img src="{{item.img}}" alt="" {{#if editable}}data-action="editImage" data-edit="img"{{/if}}>
+    <div>
+      <span class="tc-sheet__eyebrow">{{localize "TENCANDLES.Item.Card"}}</span>
+      <input name="name" type="text" value="{{item.name}}" {{disabled (not editable)}}>
+    </div>
+  </header>
+
+  {{#if isTrait}}
+    <label>{{localize "TENCANDLES.Fields.Kind"}}
+      <select name="system.kind" {{disabled (not editable)}}>
+        <option value="virtue" {{#if isVirtue}}selected{{/if}}>{{localize "TENCANDLES.Item.Virtue"}}</option>
+        <option value="vice" {{#if isVice}}selected{{/if}}>{{localize "TENCANDLES.Item.Vice"}}</option>
+      </select>
+    </label>
+  {{/if}}
+
+  {{#if isBrink}}
+    <label>{{localize "TENCANDLES.Fields.Context"}}<textarea name="system.context" placeholder="{{contextPlaceholder}}" {{disabled (not editable)}}>{{system.context}}</textarea></label>
+  {{/if}}
+
+  <label>{{localize "TENCANDLES.Fields.Text"}}<textarea name="system.text" placeholder="{{textPlaceholder}}" {{disabled (not editable)}}>{{system.text}}</textarea>{{#if traitExamples}}<small class="tc-field-examples">{{traitExamples}}</small>{{/if}}</label>
+  <p class="tc-card-state"><span>{{localize "TENCANDLES.Fields.State"}}</span><strong>{{system.state}}</strong></p>
+</section>

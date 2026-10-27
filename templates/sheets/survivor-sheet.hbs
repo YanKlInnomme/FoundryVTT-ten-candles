@@ -1,0 +1,98 @@
+<section class="tc-sheet__content tc-survivor-content">
+  <header class="tc-sheet__header">
+    {{#if canUseImagePicker}}
+      <img src="{{actor.img}}" alt="" data-action="editImage" data-edit="img" title="{{localize 'TENCANDLES.Survivor.EditPortrait'}}">
+    {{else}}{{#if canChoosePortrait}}
+      <button class="tc-survivor-portrait" type="button" data-action="choosePortrait" title="{{localize 'TENCANDLES.Survivor.ChoosePortrait'}}"><img src="{{actor.img}}" alt=""></button>
+    {{else}}
+      <img src="{{actor.img}}" alt="">
+    {{/if}}{{/if}}
+    <div>
+      <span class="tc-sheet__eyebrow">{{localize "TENCANDLES.Actor.Survivor"}}</span>
+      <input name="name" type="text" value="{{actor.name}}" {{disabled (not canEditProfile)}}>
+    </div>
+  </header>
+
+  {{#if showFinalizationGuide}}
+    <div class="tc-survivor-finalization">
+      {{#if canUnlockFinalization}}<button type="button" data-action="unlockFinalization">{{localize "TENCANDLES.Creation.EditFinalSurvivor"}}</button>{{else}}
+        {{#if canConfirmFinalization}}<button class="tc-primary-action" type="button" data-action="confirmFinalization">{{localize "TENCANDLES.Creation.ConfirmFinalSurvivor"}}</button>{{else}}<p class="tc-warning">{{localize "TENCANDLES.Creation.FinalizationIncomplete"}}</p>{{/if}}
+      {{/if}}
+    </div>
+  {{/if}}
+
+  <div class="tc-survivor-layout">
+  <section class="tc-survivor-profile tc-survivor-scroll {{#if profileEditingLocked}}is-editing-locked{{/if}}" data-scroll-key="profile">
+  <div class="tc-survivor-links">
+    <label>{{localize "TENCANDLES.Fields.Player"}}
+      <select name="system.playerUserId" {{disabled (not canAssignPlayer)}}>
+        <option value="">{{localize "TENCANDLES.Common.None"}}</option>
+        {{#each playerChoices as |choice|}}<option value="{{choice.id}}" {{#if choice.selected}}selected{{/if}}>{{choice.name}}</option>{{/each}}
+      </select>
+    </label>
+    <label>{{localize "TENCANDLES.Actor.Session"}}
+      <select name="system.sessionActorId" {{disabled (not editable)}}>
+        <option value="">{{localize "TENCANDLES.Common.None"}}</option>
+        {{#each ritualChoices as |choice|}}<option value="{{choice.id}}" {{#if choice.selected}}selected{{/if}}>{{choice.name}}</option>{{/each}}
+      </select>
+    </label>
+  </div>
+
+  {{#if showFinalizationGuide}}<p class="tc-finalization-guide">{{localize "TENCANDLES.Creation.FinalizationSheetGuide"}}</p>{{/if}}
+  <label>{{localize "TENCANDLES.Fields.Look"}}<textarea name="system.concept.look" {{disabled (not canEditProfile)}}>{{system.concept.look}}</textarea></label>
+  <label>{{localize "TENCANDLES.Fields.Concept"}}<textarea name="system.concept.summary" {{disabled (not canEditProfile)}}>{{system.concept.summary}}</textarea></label>
+  <label>{{localize "TENCANDLES.Fields.Inventory"}}<textarea name="system.inventoryNote" {{disabled (not canEditProfile)}}>{{system.inventoryNote}}</textarea></label>
+
+  <div class="tc-status-grid">
+    <article>
+      <span>{{localize "TENCANDLES.Fields.Alive"}}</span>
+      <strong>{{#if system.alive}}{{localize "TENCANDLES.Common.Yes"}}{{else}}{{localize "TENCANDLES.Common.No"}}{{/if}}</strong>
+    </article>
+    <article><span>{{localize "TENCANDLES.Fields.HopeDice"}}</span><strong>{{system.hopeDice}}</strong></article>
+    <article>
+      <span>{{localize "TENCANDLES.Fields.StackLocked"}}</span>
+      <strong>{{#if system.stack.locked}}{{localize "TENCANDLES.Common.Yes"}}{{else}}{{localize "TENCANDLES.Common.No"}}{{/if}}</strong>
+    </article>
+  </div>
+  </section>
+
+  <section class="tc-survivor-stack tc-survivor-scroll {{#if stackEditingLocked}}is-editing-locked{{/if}}" data-scroll-key="stack" {{#if canManageCards}}data-drop-zone="cards"{{/if}}>
+    <header class="tc-stack-heading">
+      <div><span>{{localize "TENCANDLES.Survivor.StepLabel"}}</span><h2>{{localize "TENCANDLES.Survivor.BuildStack"}}</h2></div>
+      <p>{{#if system.stack.locked}}{{localize "TENCANDLES.Survivor.StackLockedHint"}}{{else}}{{localize "TENCANDLES.Survivor.StackInstructions"}}{{/if}}</p>
+    </header>
+    {{#if stackEditingLocked}}<p class="tc-stack-access-lock">{{localize "TENCANDLES.Survivor.StackUnavailableUntilDistribution"}}</p>{{/if}}
+    {{#if canManageCards}}
+      <div class="tc-card-creation">
+        {{#each cardPresets as |entry|}}<button type="button" data-action="createCard" data-card-preset="{{entry.preset}}">+ {{localize "TENCANDLES.Survivor.CreateCard" card=entry.label}}</button>{{/each}}
+      </div>
+      <p class="tc-drop-hint">{{localize "TENCANDLES.Survivor.DropCardsHere"}}</p>
+    {{/if}}
+    {{#if hasCards}}<div class="tc-stack-direction"><strong>{{localize "TENCANDLES.Survivor.StackTop"}}</strong><span>↓</span><small>{{localize "TENCANDLES.Survivor.StackBottom"}}</small></div>{{/if}}
+    <ol class="tc-card-stack">
+      {{#each cards as |entry|}}
+        <li data-item-id="{{entry.item.id}}" class="tc-stack-card {{#if entry.active}}is-active{{/if}} {{#if entry.isTop}}is-top{{/if}} {{#if entry.isBottom}}is-bottom{{/if}}">
+          <div class="tc-stack-card__body">
+            <header><span>{{entry.label}}</span>{{#if entry.isTop}}<strong>{{#if ../system.stack.locked}}{{localize "TENCANDLES.Survivor.Active"}}{{else}}{{localize "TENCANDLES.Survivor.TopCard"}}{{/if}}</strong>{{/if}}</header>
+            <p>{{#if entry.item.system.text}}{{entry.item.system.text}}{{else}}{{localize "TENCANDLES.Survivor.EmptyCard"}}{{/if}}</p>
+            <div class="tc-stack-card__actions">
+              {{#if ../canManageCards}}<button type="button" data-action="editCard">{{localize "TENCANDLES.Survivor.EditCard"}}</button><button type="button" data-action="removeCard">{{localize "TENCANDLES.Survivor.RemoveCard"}}</button>{{/if}}
+            </div>
+          </div>
+          {{#if ../canBuildStack}}<nav class="tc-card-order" aria-label="{{localize 'TENCANDLES.Survivor.ReorderCard'}}">
+            <button type="button" data-action="moveCardUp" {{disabled (not entry.canMoveUp)}} aria-label="{{localize 'TENCANDLES.Survivor.MoveUp'}}">↑</button>
+            <button type="button" data-action="moveCardDown" {{disabled (not entry.canMoveDown)}} aria-label="{{localize 'TENCANDLES.Survivor.MoveDown'}}">↓</button>
+          </nav>{{/if}}
+        </li>
+      {{else}}
+        <li class="tc-empty">{{localize "TENCANDLES.Fields.NoCards"}}</li>
+      {{/each}}
+    </ol>
+    {{#if canBuildStack}}
+      {{#unless distributionComplete}}<p class="tc-warning">{{localize "TENCANDLES.Survivor.AwaitingDistribution"}}</p>{{else}}{{#if stackReady}}<p class="tc-stack-ready">{{localize "TENCANDLES.Survivor.StackReady"}}</p>{{else}}<p class="tc-warning">{{localize "TENCANDLES.Survivor.StackNotReady"}}</p>{{/if}}{{/unless}}
+    {{/if}}
+    {{#if canLockStack}}<button class="tc-lock-stack" type="button" data-action="lockStack">{{localize "TENCANDLES.Survivor.LockStack"}}</button>{{/if}}
+    {{#if canUnlockStack}}<button class="tc-unlock-stack" type="button" data-action="unlockStack">{{localize "TENCANDLES.Survivor.UnlockStack"}}</button>{{/if}}
+  </section>
+  </div>
+</section>

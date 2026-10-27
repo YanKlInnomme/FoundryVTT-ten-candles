@@ -1,0 +1,25 @@
+/* Shared visual vocabulary for sheets and the immersive table. Per-client
+   accessibility classes override timing/contrast without modifying game data. */
+:root {
+  --tc-night: #08090b;
+  --tc-surface: #111216;
+  --tc-surface-raised: #191a1f;
+  --tc-paper: #d8d0bd;
+  --tc-ink: #26221d;
+  --tc-wax: #e5d9bd;
+  --tc-flame: #f2a33a;
+  --tc-ember: #a84724;
+  --tc-ash: #625d57;
+  --tc-hope: #b9cad1;
+  --tc-text: #e8e2d6;
+  --tc-muted: #aaa398;
+  --tc-border: rgb(229 217 189 / 18%);
+  --tc-radius: 4px;
+  --tc-speed-fast: 160ms;
+  --tc-speed-ritual: 1200ms;
+}
+
+.ten-candles-reduce-motion {
+  --tc-speed-fast: 0ms;
+  --tc-speed-ritual: 0ms;
+}
