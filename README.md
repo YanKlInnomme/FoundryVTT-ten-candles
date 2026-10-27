@@ -44,9 +44,8 @@ Ce projet comprend les éléments suivants :
 Ce système nécessite de posséder une licence Foundry Virtual Tabletop. L'acquisition du livre de règles original de *Ten Candles* est recommandée pour jouer dans les conditions prévues par son auteur.
 
 ## Version 1.0.0.1
-
-- Ajout des crédits, sources et licences des photographies utilisées pour les bougies et les portraits.
-- Retrait du portrait n° 7 de la sélection et de la distribution : sa page Flickr affiche désormais « Tous droits réservés », et aucune preuve datée ne permet de confirmer que notre copie a été obtenue sous son ancienne licence CC BY 2.0.
+ * Ajout des crédits, sources et licences des photographies utilisées pour les bougies et les portraits.
+ * Retrait du portrait n° 7 de la sélection et de la distribution : sa page Flickr affiche désormais « Tous droits réservés », et aucune preuve datée ne permet de confirmer que notre copie a été obtenue sous son ancienne licence CC BY 2.0.
 
 ## Version 1.0.0.0
  * Première version publique avec :
@@ -92,9 +91,8 @@ This project includes the following elements:
 This system requires a Foundry Virtual Tabletop license. It is recommended to acquire the original *Ten Candles* rulebook to play the game as intended by its author.
 
 ## Version 1.0.0.1
-
-- Added credits, sources, and licenses for the photographs used for candles and portraits.
-- Removed portrait no. 7 from the selection and distribution: its Flickr page now states “All rights reserved,” and no dated evidence confirms that our copy was obtained under its former CC BY 2.0 license.
+ * Added credits, sources, and licenses for the photographs used for candles and portraits.
+ * Removed portrait no. 7 from the selection and distribution: its Flickr page now states “All rights reserved,” and no dated evidence confirms that our copy was obtained under its former CC BY 2.0 license.
 
 ## Version 1.0.0.0
  * First public release with:
