@@ -2,7 +2,7 @@
   "id": "ten-candles",
   "title": "Ten Candles",
   "description": "An immersive tragic horror system for Ten Candles.",
-  "version": "1.0.0.0",
+  "version": "1.0.0.1",
   "license": "LICENSE",
   "compatibility": {
     "minimum": "14",
@@ -73,3 +73,6 @@
   "manifest": "",
   "download": ""
 }
+
+
+

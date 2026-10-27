@@ -14,7 +14,9 @@ function canManageCards(actor) {
   return game.user.isGM && canEditStack(actor);
 }
 
-const SURVIVOR_PORTRAITS = Array.from({ length: 8 }, (_, index) => index + 1).map((number) => ({
+// Keep existing filenames stable when retiring a portrait: saved Actors may
+// reference the other images by path. No. 7 is no longer distributed.
+const SURVIVOR_PORTRAITS = [1, 2, 3, 4, 5, 6, 8].map((number) => ({
   id: `survivor-${String(number).padStart(2, "0")}`,
   path: `systems/ten-candles/assets/portraits/survivor-${String(number).padStart(2, "0")}.webp`
 }));

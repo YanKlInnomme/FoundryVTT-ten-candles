@@ -26,11 +26,20 @@ Ce projet comprend les éléments suivants :
 
 - **Code source** : Le code source original (JavaScript, CSS, etc.) est distribué sous licence [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), sous réserve des licences applicables aux éventuelles dépendances tierces.
 
+- **Photographies et assets graphiques** : Les photographies de bougies et les sept portraits de Survivants proviennent de Flickr. Leurs auteurs, titres, liens sources, licences et adaptations sont détaillés dans les [crédits des assets](assets/ATTRIBUTIONS.md). Ces photographies conservent leurs conditions propres et ne sont pas couvertes par la licence GPL-3.0 du code. Certaines comportent une clause **NonCommercial** ou **ShareAlike**.
+
+- **Icônes et ressources de l’interface Foundry** : Les icônes et polices fournies par Foundry VTT sont utilisées depuis l’installation de Foundry et restent soumises à leurs licences respectives ; elles ne sont pas redistribuées dans cette archive.
+
 - **Foundry VTT** : Ce projet est développé conformément à l'[accord de licence limitée de Foundry VTT concernant le développement de paquets](https://foundryvtt.com/article/license/).
 
 - **Polices de caractères** : Les polices utilisées dans ce projet sont soumises à leurs propres licences, qui doivent être respectées lors de leur utilisation et de leur redistribution.
 
 Ce système nécessite de posséder une licence Foundry Virtual Tabletop. L'acquisition du livre de règles original de *Ten Candles* est recommandée pour jouer dans les conditions prévues par son auteur.
+
+## Version 1.0.0.1
+
+- Ajout des crédits, sources et licences des photographies utilisées pour les bougies et les portraits.
+- Retrait du portrait n° 7 de la sélection et de la distribution : sa page Flickr affiche désormais « Tous droits réservés », et aucune preuve datée ne permet de confirmer que notre copie a été obtenue sous son ancienne licence CC BY 2.0.
 
 ## Version 1.0.0.0
  * Première version publique avec :
@@ -65,11 +74,20 @@ This project includes the following elements:
 
 - **Source Code**: The original source code (JavaScript, CSS, etc.) is distributed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), subject to the licenses of any third-party dependencies.
 
+- **Photographs and graphic assets**: The candle photographs and seven Survivor portraits come from Flickr. Their authors, titles, source links, licenses, and adaptations are listed in the [asset credits](assets/ATTRIBUTIONS.md). These photographs retain their own terms and are not covered by the code's GPL-3.0 license. Some include **NonCommercial** or **ShareAlike** conditions.
+
+- **Foundry interface icons and resources**: Icons and fonts supplied by Foundry VTT are used from the Foundry installation and remain subject to their respective licenses; they are not redistributed in this archive.
+
 - **Foundry VTT**: This project is developed in accordance with the [Foundry VTT Limited License Agreement for Package Development](https://foundryvtt.com/article/license/).
 
 - **Fonts**: The fonts used in this project are subject to their own licenses, which must be respected when using and redistributing them.
 
 This system requires a Foundry Virtual Tabletop license. It is recommended to acquire the original *Ten Candles* rulebook to play the game as intended by its author.
+
+## Version 1.0.0.1
+
+- Added credits, sources, and licenses for the photographs used for candles and portraits.
+- Removed portrait no. 7 from the selection and distribution: its Flickr page now states “All rights reserved,” and no dated evidence confirms that our copy was obtained under its former CC BY 2.0 license.
 
 ## Version 1.0.0.0
  * First public release with:
