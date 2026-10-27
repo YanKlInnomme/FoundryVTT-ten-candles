@@ -1,5 +1,12 @@
 ![Foundry VTT](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FYanKlInnomme%2FFoundryVTT-ten-candles%2Fmaster%2Fsystem.json&query=%24.compatibility.verified&label=foundry%20vtt&color=%23ee9b3a) ![Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FYanKlInnomme%2FFoundryVTT-ten-candles%2Fmaster%2Fsystem.json&query=%24.version&label=version&color=%230f2f2b) ![Téléchargements](https://img.shields.io/github/downloads/YanKlInnomme/FoundryVTT-ten-candles/total) ![Issues](https://img.shields.io/github/issues-raw/YanKlInnomme/FoundryVTT-ten-candles) ![Licence GPL-3.0](https://img.shields.io/github/license/YanKlInnomme/FoundryVTT-ten-candles) [![Buy Me a Coffee](https://img.shields.io/badge/buy_me_a_coffee-FFDD00?logo=Buy%20Me%20A%20Coffee&logoColor=black)](https://www.buymeacoffee.com/yank)
 
+<img width="1919" height="1031" alt="Capture d&#39;écran 2026-10-27 154911" src="https://github.com/user-attachments/assets/a159e55f-9da4-4040-b3b7-cc16538f3b15" />
+<img width="1899" height="933" alt="Capture d&#39;écran 2026-10-27 155202" src="https://github.com/user-attachments/assets/52356937-9454-4b4c-bc22-2d145895e3a4" />
+<img width="1919" height="913" alt="Capture d&#39;écran 2026-10-27 155344" src="https://github.com/user-attachments/assets/064bad7a-7a04-4ea3-80aa-a002464249a2" />
+<img width="1919" height="1006" alt="Capture d&#39;écran 2026-10-27 155454" src="https://github.com/user-attachments/assets/94ddfcef-c985-4cad-b011-0b94f8a483c8" />
+<img width="1919" height="917" alt="Capture d&#39;écran 2026-10-27 155657" src="https://github.com/user-attachments/assets/3d5f4ac3-8f72-4a1c-9c13-3a8c18661849" />
+<img width="1919" height="1005" alt="Capture d&#39;écran 2026-10-27 155807" src="https://github.com/user-attachments/assets/320d40f4-f545-4f8f-9982-687a6e20c992" />
+
 [**See below for the English version**](#ten-candles-game-system-for-foundry-vtt)
 
 # Système de jeu Ten Candles pour Foundry VTT
